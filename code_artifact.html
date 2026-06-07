@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompuClassroom - แหล่งเรียนรู้คอมพิวเตอร์และนวัตกรรมสร้างสรรค์</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        neonPink: '#ff007f',
+                        neonPurple: '#7f00ff',
+                        neonCyan: '#00f0ff',
+                    },
+                    fontFamily: {
+                        sans: ['Kanit', 'Sarabun', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tone.js for Real-time Sound Effects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
+    <style>
+        body {
+            font-size: 16px;
+            transition: font-size 0.3s ease, background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* ลวดลายจุด Retro Tech (Light Mode) */
+        .pattern-dots-light {
+            background-color: #f8fafc;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(244, 63, 94, 0.08) 0px, transparent 30%),
+                radial-gradient(circle at 85% 85%, rgba(59, 130, 246, 0.08) 0px, transparent 30%),
+                radial-gradient(#e2e8f0 1.5px, transparent 1.5px);
+            background-size: 100% 100%, 100% 100%, 24px 24px;
+        }
+        
+        /* ลวดลายอวกาศนีออนเรืองแสง (Dark Mode) */
+        .dark .pattern-dots-dark {
+            background-color: #090d16;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(244, 63, 94, 0.15) 0px, transparent 35%),
+                radial-gradient(circle at 85% 85%, rgba(6, 182, 212, 0.15) 0px, transparent 35%),
+                radial-gradient(#1e293b 1.5px, transparent 1.5px);
+            background-size: 100% 100%, 100% 100%, 24px 24px;
+        }
+
+        /* เส้นขอบแอนิเมชันสายรุ้ง */
+        .rainbow-glow-border {
+            position: relative;
+            background: linear-gradient(135deg, #ff007f, #7f00ff, #00f0ff, #ff007f);
+            background-size: 300% 300%;
+            animation: rainbow-shift 6s linear infinite;
+            padding: 3px;
+            border-radius: 1.5rem;
+        }
+
+        @keyframes rainbow-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .rainbow-inner-bg {
+            background: white;
+            border-radius: 1.3rem;
+        }
+        .dark .rainbow-inner-bg {
+            background: #111827;
+        }
+
+        /* ชิ้นส่วนลอยได้ในหน้าเว็บ */
+        .floating-element {
+            animation: float 4s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+
+        /* พัลส์เรืองแสง */
+        .neon-pulse {
+            box-shadow: 0 0 15px rgba(127, 0, 255, 0.2);
+            animation: pulse-glow 2s infinite alternate;
+        }
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 10px rgba(127, 0, 255, 0.2); }
+            100% { box-shadow: 0 0 25px rgba(0, 240, 255, 0.5); }
+        }
+
+        /* ฟังก์ชันช่วยปรับขนาดตัวอักษรแบบนุ่มนวล */
+        .transition-font {
+            transition: font-size 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+    </style>
+</head>
+<body class="pattern-dots-light dark:pattern-dots-dark text-slate-800 dark:text-slate-100 min-h-screen flex flex-col antialiased font-sans transition-all duration-300">
+
+    <!-- สวิตช์เมนูด้านบนและแผงอำนวยความสะดวก -->
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-purple-100 dark:border-slate-900 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex justify-between items-center">
+            
+            <!-- โลโก้นวัตกรรมสร้างสรรค์ -->
+            <a href="#" class="flex items-center space-x-3 group" onclick="playBeep('click')">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-pink-500 via-purple-600 to-cyan-500 flex items-center justify-center text-white shadow-lg shadow-purple-500/30 transform group-hover:rotate-6 transition-all duration-300">
+                    <i class="fa-solid fa-graduation-cap text-xl"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-black bg-gradient-to-r from-pink-500 via-purple-600 to-cyan-500 bg-clip-text text-transparent block tracking-wide">CompuClass</span>
+                    <span class="text-[10px] text-slate-400 dark:text-slate-500 block -mt-1 font-mono uppercase font-bold tracking-widest">Interactive Lab</span>
+                </div>
+            </a>
+
+            <!-- เมนูสำหรับกระโดดข้ามหัวข้อ -->
+            <nav class="hidden lg:flex items-center space-x-8 font-medium">
+                <a href="#simulator" class="hover:text-pink-500 dark:hover:text-pink-400 transition-colors text-sm"><i class="fa-solid fa-gamepad mr-1.5"></i>จำลองประกอบคอมฯ</a>
+                <a href="#lessons" class="hover:text-purple-500 dark:hover:text-purple-400 transition-colors text-sm"><i class="fa-solid fa-book-open mr-1.5"></i>ชุดเรียนรู้อเนกประสงค์</a>
+                <a href="#phishing-lab" class="hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors text-sm"><i class="fa-solid fa-user-shield mr-1.5"></i>ตรวจจับภัยคุกคาม</a>
+                <a href="#exam" class="hover:text-amber-500 dark:hover:text-amber-400 transition-colors text-sm"><i class="fa-solid fa-stamp mr-1.5"></i>สอบชิงประกาศนียบัตร</a>
+                <a href="#author" class="hover:text-rose-500 dark:hover:text-rose-400 transition-colors text-sm"><i class="fa-solid fa-user-astronaut mr-1.5"></i>ผู้พัฒนา</a>
+            </nav>
+
+            <!-- แถบช่วยเหลือการอ่านสำหรับทุกคน (Accessibility Panel) -->
+            <div class="flex items-center space-x-3">
+                <!-- ควบคุมขนาดตัวอักษร -->
+                <div class="flex items-center bg-slate-100 dark:bg-slate-900 p-1 rounded-xl border border-slate-200/50 dark:border-slate-800">
+                    <button onclick="changeFontSize('decrease')" class="w-8 h-8 flex items-center justify-center bg-white dark:bg-slate-800 hover:bg-pink-100 dark:hover:bg-pink-950 rounded-lg text-xs font-bold shadow-sm transition-all text-slate-700 dark:text-slate-200" title="ลดขนาดอักษร (A-)">
+                        A-
+                    </button>
+                    <button onclick="changeFontSize('reset')" class="w-8 h-8 flex items-center justify-center bg-white dark:bg-slate-800 hover:bg-purple-100 dark:hover:bg-purple-950 rounded-lg text-xs font-bold shadow-sm transition-all text-slate-700 dark:text-slate-200" title="รีเซ็ตอักษร">
+                        A
+                    </button>
+                    <button onclick="changeFontSize('increase')" class="w-8 h-8 flex items-center justify-center bg-white dark:bg-slate-800 hover:bg-cyan-100 dark:hover:bg-cyan-950 rounded-lg text-xs font-bold shadow-sm transition-all text-slate-700 dark:text-slate-200" title="เพิ่มขนาดอักษร (A+)">
+                        A+
+                    </button>
+                </div>
+
+                <!-- สวิตช์กลางวัน/กลางคืน -->
+                <button onclick="toggleDayNightMode()" class="w-10 h-10 rounded-xl flex items-center justify-center text-white focus:outline-none shadow-md bg-gradient-to-r from-yellow-400 to-amber-500 dark:from-indigo-600 dark:to-purple-700 transition-all duration-300 transform hover:scale-105" id="theme-toggler">
+                    <span id="theme-btn-icon" class="text-lg">
+                        <i class="fa-solid fa-sun text-yellow-50"></i>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- หน้าเกริ่นนำหัวเรื่องต้อนรับ -->
+    <section class="relative overflow-hidden py-16 sm:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <span class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-pink-500/10 to-purple-500/10 text-purple-600 dark:text-purple-400 text-xs sm:text-sm font-bold mb-6 border border-purple-200/30 dark:border-purple-800/20 floating-element">
+                <i class="fa-solid fa-sparkles animate-pulse text-pink-500"></i>
+                <span>นวัตกรรมการศึกษาไอทีแบบสัมผัสและโต้ตอบได้จริง</span>
+            </span>
+            <h1 class="text-4xl sm:text-7xl font-extrabold tracking-tight mb-6 leading-tight transition-font">
+                คิดแบบคอมพิวเตอร์ <br class="hidden sm:inline">
+                <span class="bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 bg-clip-text text-transparent">สร้างสรรค์ด้วยปัญญาประดิษฐ์</span>
+            </h1>
+            <p class="max-w-3xl mx-auto text-base sm:text-xl text-slate-600 dark:text-slate-300 mb-8 leading-relaxed transition-font">
+                สนุกสนานไปกับห้องทดลองเสมือนจริง ประกอบคอมพิวเตอร์ด้วยตนเอง ทดลองเขียนเว็บโค้ดดิ้ง ปลุกต่อมคิดเพื่อปราบสแกมเมอร์ และคว้าเกียรติบัตรสุดเท่ไปครองได้ทันที!
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                <a href="#simulator" class="px-8 py-4 rounded-xl bg-gradient-to-r from-pink-500 via-purple-600 to-cyan-500 text-white font-bold shadow-lg hover:shadow-cyan-500/30 hover:scale-105 transition-all w-full sm:w-auto text-center" onclick="playBeep('click')">
+                    <i class="fa-solid fa-wand-magic-sparkles mr-2 animate-bounce"></i> เข้าสู่ห้องแล็บเสมือนจริง
+                </a>
+                <a href="#exam" class="px-8 py-4 rounded-xl bg-white dark:bg-gray-900 border border-slate-200 dark:border-slate-800 font-bold hover:bg-slate-50 dark:hover:bg-slate-800 hover:scale-105 transition-all w-full sm:w-auto text-center" onclick="playBeep('click')">
+                    <i class="fa-solid fa-graduation-cap mr-2"></i> สอบชิงเกียรติบัตร
+                </a>
+            </div>
+        </div>
+
+        <!-- แสงนีออนพื้นหลังสะท้อนความงามสลับโหมดได้ -->
+        <div class="absolute top-10 left-1/4 w-80 h-80 bg-purple-500/10 dark:bg-purple-500/5 rounded-full filter blur-[100px] pointer-events-none"></div>
+        <div class="absolute bottom-10 right-1/4 w-96 h-96 bg-cyan-500/10 dark:bg-cyan-500/5 rounded-full filter blur-[120px] pointer-events-none"></div>
+    </section>
+
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-24">
+
+        <!-- แล็บเสมือนจริง: ประกอบคอมพิวเตอร์ -->
+        <section id="simulator" class="rainbow-glow-border shadow-2xl transition-all duration-300">
+            <div class="rainbow-inner-bg p-6 sm:p-10">
+                <div class="text-center md:text-left mb-8">
+                    <span class="px-3 py-1 text-[11px] font-bold bg-pink-100 dark:bg-pink-950/50 text-pink-600 dark:text-pink-400 rounded-full mb-2 inline-block uppercase tracking-wider font-mono">Interactive Lab 1</span>
+                    <h2 class="text-3xl font-extrabold text-slate-800 dark:text-white transition-font">🖥️ ระบบจำลองการต่อคอมพิวเตอร์เสมือนจริง</h2>
+                    <p class="text-slate-500 dark:text-slate-400 mt-2 text-sm sm:text-base transition-font">ทดลองคลิกชิ้นส่วนหลักทีละชิ้นเพื่อเสียบลงบนแผงวงจรหลัก แล้วคำนวณวัดประสิทธิภาพคอมพิวเตอร์ของคุณแบบเรียลไทม์!</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <!-- คลังชิ้นส่วนอะไหล่คอมพิวเตอร์ (คลิกเพื่อประกอบ) -->
+                    <div class="lg:col-span-5 space-y-4">
+                        <h3 class="text-base font-bold text-slate-700 dark:text-slate-300 flex items-center mb-2">
+                            <i class="fa-solid fa-boxes-stacked mr-2 text-pink-500"></i> กล่องเก็บชิ้นส่วนฮาร์ดแวร์
+                        </h3>
+                        
+                        <!-- ชิ้นส่วน 1: CPU -->
+                        <div id="part-cpu" onclick="installHardware('cpu')" class="p-4 bg-slate-50 dark:bg-slate-900 border-2 border-dashed border-slate-200 dark:border-slate-800 hover:border-pink-500 dark:hover:border-pink-500 rounded-2xl cursor-pointer transition-all flex items-center justify-between group">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-pink-100 dark:bg-pink-950 text-pink-500 rounded-xl flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                                    <i class="fa-solid fa-microchip"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm text-slate-800 dark:text-slate-200">สมองคอมพิวเตอร์ (CPU Core-i9)</h4>
+                                    <p class="text-xs text-slate-400">ควบคุมและประมวลผลคำสั่งเชิงคณิตศาสตร์</p>
+                                </div>
+                            </div>
+                            <span id="badge-cpu" class="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-400">คลังพัสดุ</span>
+                        </div>
+
+                        <!-- ชิ้นส่วน 2: RAM -->
+                        <div id="part-ram" onclick="installHardware('ram')" class="p-4 bg-slate-50 dark:bg-slate-900 border-2 border-dashed border-slate-200 dark:border-slate-800 hover:border-purple-500 dark:hover:border-purple-500 rounded-2xl cursor-pointer transition-all flex items-center justify-between group">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-purple-100 dark:bg-purple-950 text-purple-500 rounded-xl flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                                    <i class="fa-solid fa-memory"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm text-slate-800 dark:text-slate-200">หน่วยความจำสำรอง (RAM 32GB)</h4>
+                                    <p class="text-xs text-slate-400">เก็บข้อมูลสตรีมมิ่งที่พร้อมประมวลผลชั่วคราว</p>
+                                </div>
+                            </div>
+                            <span id="badge-ram" class="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-400">คลังพัสดุ</span>
+                        </div>
+
+                        <!-- ชิ้นส่วน 3: GPU -->
+                        <div id="part-gpu" onclick="installHardware('gpu')" class="p-4 bg-slate-50 dark:bg-slate-900 border-2 border-dashed border-slate-200 dark:border-slate-800 hover:border-cyan-500 dark:hover:border-cyan-500 rounded-2xl cursor-pointer transition-all flex items-center justify-between group">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-cyan-100 dark:bg-cyan-950 text-cyan-500 rounded-xl flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                                    <i class="fa-solid fa-floppy-disk"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm text-slate-800 dark:text-slate-200">การ์ดจอประมวลผลภาพ (GPU RTX)</h4>
+                                    <p class="text-xs text-slate-400">ประมวลผลสามมิติ พิกเซลแสงเงา และ AI</p>
+                                </div>
+                            </div>
+                            <span id="badge-gpu" class="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-400">คลังพัสดุ</span>
+                        </div>
+
+                        <!-- ชิ้นส่วน 4: Storage -->
+                        <div id="part-storage" onclick="installHardware('storage')" class="p-4 bg-slate-50 dark:bg-slate-900 border-2 border-dashed border-slate-200 dark:border-slate-800 hover:border-amber-500 dark:hover:border-amber-500 rounded-2xl cursor-pointer transition-all flex items-center justify-between group">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-amber-100 dark:bg-amber-950 text-amber-500 rounded-xl flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                                    <i class="fa-solid fa-database"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm text-slate-800 dark:text-slate-200">หน่วยเก็บข้อมูลถาวร (SSD NVMe 2TB)</h4>
+                                    <p class="text-xs text-slate-400">เก็บรักษาไฟล์ ระบบปฏิบัติการ และเกมยาวนาน</p>
+                                </div>
+                            </div>
+                            <span id="badge-storage" class="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-400">คลังพัสดุ</span>
+                        </div>
+                    </div>
+
+                    <!-- เมนบอร์ดเสมือนจริงและการวิเคราะห์ผล (Virtual Motherboard & Stats) -->
+                    <div class="lg:col-span-7 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-800 p-6">
+                        <h3 class="text-base font-bold text-slate-700 dark:text-slate-300 flex items-center mb-6">
+                            <i class="fa-solid fa-circle-nodes mr-2 text-purple-500 animate-pulse"></i> เมนบอร์ดระบบหลัก (Motherboard Socket)
+                        </h3>
+
+                        <!-- บอร์ดเสมือน -->
+                        <div class="bg-slate-200 dark:bg-slate-950 p-6 rounded-xl relative grid grid-cols-2 gap-4 border border-slate-300 dark:border-slate-800 shadow-inner">
+                            <div id="socket-cpu" class="h-28 border-2 border-dashed border-slate-400 dark:border-slate-800 rounded-xl flex flex-col items-center justify-center text-slate-400 bg-slate-300/40 dark:bg-slate-900/40 transition-all">
+                                <i class="fa-solid fa-microchip text-2xl mb-1"></i>
+                                <span class="text-[10px] font-bold uppercase">Socket CPU</span>
+                            </div>
+                            <div id="socket-ram" class="h-28 border-2 border-dashed border-slate-400 dark:border-slate-800 rounded-xl flex flex-col items-center justify-center text-slate-400 bg-slate-300/40 dark:bg-slate-900/40 transition-all">
+                                <i class="fa-solid fa-memory text-2xl mb-1"></i>
+                                <span class="text-[10px] font-bold uppercase">RAM Slot</span>
+                            </div>
+                            <div id="socket-gpu" class="h-28 border-2 border-dashed border-slate-400 dark:border-slate-800 rounded-xl flex flex-col items-center justify-center text-slate-400 bg-slate-300/40 dark:bg-slate-900/40 transition-all">
+                                <i class="fa-solid fa-floppy-disk text-2xl mb-1"></i>
+                                <span class="text-[10px] font-bold uppercase">PCIe GPU Slot</span>
+                            </div>
+                            <div id="socket-storage" class="h-28 border-2 border-dashed border-slate-400 dark:border-slate-800 rounded-xl flex flex-col items-center justify-center text-slate-400 bg-slate-300/40 dark:bg-slate-900/40 transition-all">
+                                <i class="fa-solid fa-database text-2xl mb-1"></i>
+                                <span class="text-[10px] font-bold uppercase">M.2 NVMe Slot</span>
+                            </div>
+                        </div>
+
+                        <!-- เกจวัดประสิทธิภาพคอมพิวเตอร์ -->
+                        <div class="mt-6 space-y-3.5">
+                            <div class="flex justify-between text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                <span>ความสามารถโดยรวมคอมพิวเตอร์</span>
+                                <span id="performance-percentage">0%</span>
+                            </div>
+                            <div class="h-3 w-full bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                                <div id="performance-bar" class="h-full bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 w-0 transition-all duration-500"></div>
+                            </div>
+                            <p id="performance-desc" class="text-xs text-slate-500 dark:text-slate-400 italic">
+                                * คลิกติดตั้งอุปกรณ์ในกล่องเก็บซ้ายมือ เพื่อเปิดเครื่องทดสอบสัญญาณบอร์ด
+                            </p>
+                        </div>
+
+                        <!-- รีเซ็ตการจำลอง -->
+                        <div class="mt-6 flex justify-end">
+                            <button onclick="resetSimulator()" class="px-4 py-2 bg-slate-200 dark:bg-slate-800 hover:bg-red-500 dark:hover:bg-red-600 hover:text-white rounded-lg text-xs font-bold transition-all text-slate-600 dark:text-slate-300">
+                                <i class="fa-solid fa-rotate-left mr-1.5"></i> ถอดชิ้นส่วนออกทั้งหมด
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ส่วนที่ 2: บทเรียนคอมพิวเตอร์อเนกประสงค์ (Interactive Lessons) -->
+        <section id="lessons" class="space-y-12">
+            <div class="text-center">
+                <span class="px-3 py-1 text-[11px] font-bold bg-purple-100 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400 rounded-full mb-2 inline-block uppercase tracking-wider font-mono">Knowledge Base</span>
+                <h2 class="text-3xl font-extrabold text-slate-800 dark:text-white transition-font">🎓 บทเรียนและการทดลองด้านคอมพิวเตอร์</h2>
+                <p class="text-slate-500 dark:text-slate-400 mt-2 max-w-xl mx-auto text-sm sm:text-base transition-font">เจาะลึกบทเรียนไอทีที่สำคัญ พร้อมบอร์ดทดลองเขียนโค้ดสดและเกมแก้ปัญหาไซเบอร์</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- บทเรียนที่ 1: วิวัฒนาการความเข้าใจฮาร์ดแวร์ -->
+                <div class="bg-white dark:bg-gray-900 p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-pink-100 dark:bg-pink-950 flex items-center justify-center text-pink-500 mb-6">
+                            <i class="fa-solid fa-cube text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-slate-800 dark:text-white">1. สถาปัตยกรรมและฮาร์ดแวร์ยุคใหม่</h3>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-6">
+                            คอมพิวเตอร์ทำงานร่วมกันเป็นระบบโดยอาศัยโครงสร้าง "แฝดสามแสนเก่ง" ได้แก่ แผงคำนวณหลัก (CPU) ถังรับข้อมูลด่วน (RAM) และหน่วยขับพลังกราฟิก (GPU) 
+                        </p>
+                        
+                        <div class="bg-slate-50 dark:bg-slate-950 rounded-xl p-4 border border-slate-100 dark:border-slate-800">
+                            <h4 class="font-bold text-xs text-pink-500 uppercase tracking-widest mb-3">เจาะประเด็นฮาร์ดแวร์คอมฯ:</h4>
+                            <div class="space-y-2">
+                                <details class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-2.5 cursor-pointer text-xs">
+                                    <summary class="font-bold text-slate-700 dark:text-slate-300 list-none flex justify-between items-center">
+                                        <span>🧐 สถาปัตยกรรมแบบฟอนนอยมันน์ (Von Neumann) คืออะไร?</span>
+                                        <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+                                    </summary>
+                                    <p class="mt-2 text-slate-500 dark:text-slate-400 leading-relaxed pt-2 border-t border-slate-100 dark:border-slate-800">
+                                        เป็นรากฐานการออกแบบคอมพิวเตอร์ยุคปัจจุบัน ประกอบด้วย หน่วยประมวลผล (CPU) หน่วยความจำ (Memory) และระบบรับเข้า/ส่งออกผลข้อมูล (Input/Output Devices) ร่วมกันอย่างมีระเบียบ
+                                    </p>
+                                </details>
+                                <details class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-2.5 cursor-pointer text-xs">
+                                    <summary class="font-bold text-slate-700 dark:text-slate-300 list-none flex justify-between items-center">
+                                        <span>🧊 ทำไมคอมพิวเตอร์ต้องมีพัดลมและระบบระบายความร้อนสูง?</span>
+                                        <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+                                    </summary>
+                                    <p class="mt-2 text-slate-500 dark:text-slate-400 leading-relaxed pt-2 border-t border-slate-100 dark:border-slate-800">
+                                        การคำนวณสูตรคณิตศาสตร์นับพันล้านครั้งต่อวินาทีใน CPU ทำให้เกิดแรงเสียดทานทางไฟฟ้าและสร้างความร้อนสูง หากไม่ระบายออก ชิปอาจลดประสิทธิภาพลง (Thermal Throttling) หรือชำรุดเสียหายได้
+                                    </p>
+                                </details>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- บทเรียนที่ 2: ด่านโค้ดดิ้งและโปรแกรมมิ่งหน้าเว็บ (Live HTML Sandbox) -->
+                <div class="bg-white dark:bg-gray-900 p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-950 flex items-center justify-center text-purple-500 mb-6">
+                            <i class="fa-solid fa-code text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-slate-800 dark:text-white">2. เรียนรู้โค้ดดิ้งและเขียนเว็บเบื้องต้น</h3>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-6">
+                            การสื่อสารกับคอมพิวเตอร์ทำผ่านโครงสร้าง HTML และชุดตกแต่งรูปแบบ CSS ลองเขียนโค้ดและปรับระดับสีบอร์ดผลลัพธ์เพื่อศึกษาวิธีประยุกต์ใช้ทันที!
+                        </p>
+
+                        <!-- พื้นที่ฝึกโค้ดดิ้งแบบโต้ตอบได้ -->
+                        <div class="bg-slate-50 dark:bg-slate-950 rounded-xl p-4 border border-slate-100 dark:border-slate-800">
+                            <h4 class="font-bold text-xs text-purple-500 uppercase tracking-widest mb-3">ห้องทดลองเขียนโค้ดสด (Live CSS Sandbox):</h4>
+                            
+                            <div class="space-y-3">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-500 mb-1">กล่องป้อนข้อมูลสไตล์ (CSS Background Color):</label>
+                                    <select id="code-selector" onchange="runSandboxCode()" class="w-full text-xs p-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-slate-700 dark:text-slate-200">
+                                        <option value="linear-gradient(135deg, #ff007f, #7f00ff)">💖 ไล่เฉดสี ส้มแดง-ม่วง (Retro Gradient)</option>
+                                        <option value="linear-gradient(135deg, #00f0ff, #7f00ff)">💎 ไล่เฉดสี ครามฟ้า-นีออน (Cyber Gradient)</option>
+                                        <option value="#10b981">🌲 สีเขียวมรกต (Emerald Clean)</option>
+                                        <option value="#f59e0b">🍊 สีส้มแอปริคอต (Amber Sunset)</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-500 mb-1">หน้าจอแสดงผลลัพธ์จำลอง (Live Rendering Box):</label>
+                                    <div id="sandbox-preview" class="h-20 rounded-lg flex items-center justify-center text-white text-xs font-bold font-mono transition-all duration-500 shadow-md shadow-purple-500/10" style="background: linear-gradient(135deg, #ff007f, #7f00ff);">
+                                        &lt;div id="my-block"&gt;&lt;/div&gt;
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ส่วนที่ 3: ระบบแล็บวิเคราะห์อีเมลภัยคุกคาม (Cybersecurity Phishing Spotter) -->
+        <section id="phishing-lab" class="bg-slate-900 text-white rounded-3xl p-6 sm:p-10 border border-slate-800 shadow-2xl relative overflow-hidden">
+            <!-- จุดสีนีออนประดับห้องแฮ็กเกอร์ -->
+            <div class="absolute -right-20 -top-20 w-80 h-80 bg-red-500/10 rounded-full filter blur-[100px] pointer-events-none"></div>
+
+            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <!-- บรีฟภารกิจ -->
+                <div class="lg:col-span-5 space-y-4 text-center lg:text-left">
+                    <span class="px-3 py-1 text-[11px] font-bold bg-red-950 text-red-400 border border-red-900 rounded-full inline-block uppercase tracking-wider font-mono">Cyber Security Lab</span>
+                    <h2 class="text-3xl font-extrabold tracking-tight">🕵️ มินิเกมจับพิรุธ "ภัยคุกคามทางไซเบอร์"</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed max-w-md mx-auto lg:mx-0">
+                        แฮ็กเกอร์พยายามส่งเมลหลอกลวง (Phishing) มายังกล่องข้อความของคุณ ลองวิเคราะห์หลักฐานในอีเมลด้านข้าง แล้วเลือกว่านี่คือ "เมลจริงปลอดภัย" หรือ "ฟิชชิ่งอันตราย" เพื่อช่วยกู้ข้อมูลองค์กร!
+                    </p>
+                    <div class="pt-2">
+                        <span class="text-xs font-mono font-bold text-cyan-400">ระดับความพร้อมแอนติไวรัส: <span id="shield-hp" class="text-white">100%</span></span>
+                        <div class="h-2.5 w-44 bg-slate-800 rounded-full overflow-hidden mt-1.5 mx-auto lg:mx-0">
+                            <div id="shield-bar" class="h-full bg-cyan-400 w-full transition-all duration-300"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- อีเมลให้วิเคราะห์และปุ่มตอบโต้ -->
+                <div class="lg:col-span-7 bg-slate-950 rounded-2xl border border-slate-800 p-5 sm:p-7 space-y-6 shadow-2xl">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-3.5 h-3.5 rounded-full bg-red-500"></span>
+                            <span class="w-3.5 h-3.5 rounded-full bg-yellow-500"></span>
+                            <span class="w-3.5 h-3.5 rounded-full bg-green-500"></span>
+                        </div>
+                        <span class="text-xs text-slate-500 font-mono">MailBox Inbox V.1</span>
+                    </div>
+
+                    <!-- การ์ดจำลองอีเมล -->
+                    <div class="bg-slate-900 p-4 sm:p-5 rounded-xl border border-slate-800 space-y-3.5 text-xs text-slate-300">
+                        <div>
+                            <span class="text-slate-500 font-bold block mb-1">ผู้ส่ง (From):</span>
+                            <span id="phish-sender" class="font-mono text-cyan-400 font-bold">Netflix-Support &lt;admin-billing-update-9921@secure-bank-login.com&gt;</span>
+                        </div>
+                        <div>
+                            <span class="text-slate-500 font-bold block mb-1">หัวข้อ (Subject):</span>
+                            <span id="phish-subject" class="font-bold text-white">!! แจ้งเตือนฉุกเฉิน บัญชีคุณกำลังจะถูกระงับถาวร กรุณากรอกรหัสผ่านเพื่อยืนยันตนด่วนที่สุด !!</span>
+                        </div>
+                        <div class="h-px bg-slate-800 my-2"></div>
+                        <div>
+                            <p id="phish-content" class="leading-relaxed">
+                                เรียน สมาชิกที่รัก,<br><br>
+                                เราตรวจพบความพยายามเข้าสู่ระบบที่ไม่ปกติในแถบต่างจังหวัดของคุณ หากไม่รีบดำเนินการคลิกยืนยันลิงก์แนบด้านล่างเพื่อชำระค่าบริการรอบใหม่ ระบบจะลบบัญชีและทำลายประวัติการรับชมภายใน 24 ชั่วโมง!<br><br>
+                                <a href="#" class="text-red-400 font-bold underline cursor-not-allowed">คลิกที่นี่เพื่อต่ออายุบัตรเครดิตด่วนที่สุด</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- ปุ่มตัดสินใจเลือกทาง -->
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <button onclick="judgePhishing(true)" class="flex-1 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold text-xs sm:text-sm transition-all shadow-md flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <span>เมลนี้เป็น ฟิชชิ่งปลอมตัวแน่นอน!</span>
+                        </button>
+                        <button onclick="judgePhishing(false)" class="flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs sm:text-sm transition-all shadow-md flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>เมลฉบับนี้ปลอดภัย มั่นใจของจริง</span>
+                        </button>
+                    </div>
+
+                    <!-- หน้าจอวิเคราะห์ผลลัพธ์แจ้งเตือนในตัว -->
+                    <div id="phish-feedback-box" class="hidden p-4 rounded-xl text-xs leading-relaxed transition-all"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ส่วนที่ 4: ระบบทดสอบและระบบออกใบเกียรติบัตรย่อย (Quiz & Certificate Generator) -->
+        <section id="exam" class="border-2 border-dashed border-purple-300 dark:border-slate-800 rounded-3xl p-6 sm:p-10 bg-white dark:bg-gray-900 shadow-xl relative overflow-hidden">
+            <div class="absolute -right-24 -bottom-24 w-80 h-80 bg-cyan-500/10 rounded-full filter blur-[100px] pointer-events-none"></div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                <!-- บรรยายสรรพคุณ -->
+                <div class="lg:col-span-5 space-y-4">
+                    <span class="px-3 py-1 text-[11px] font-bold bg-amber-100 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 rounded-full inline-block uppercase tracking-wider font-mono">Digital Achievement</span>
+                    <h2 class="text-3xl font-extrabold text-slate-800 dark:text-white transition-font">🏅 กิจกรรมสอบชิงเกียรติบัตรคอมพิวเตอร์</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed transition-font">
+                        เมื่อคุณสามารถอ่านบทเรียนและตอบคำถามถูกต้องครบถ้วน ระบบจะเปิดสิทธิ์ให้คุณระบุชื่อ-นามสกุลจริง เพื่อเรนเดอร์ใบเกียรติบัตรอิเล็กทรอนิกส์ส่งตรงจากคุณครู **Chanittra saetan** แบบเท่ๆ ทันที!
+                    </p>
+                    
+                    <div class="p-4 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800">
+                        <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-2">กรอกชื่อของคุณก่อนเริ่มสอบ:</label>
+                        <input type="text" id="student-name-input" oninput="updateStudentNameInRealtime()" placeholder="เช่น นายคอมพิวเตอร์ รักการเรียน" class="w-full text-xs px-3 py-2.5 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 dark:text-white">
+                    </div>
+
+                    <div class="text-xs font-semibold text-pink-600 dark:text-pink-400">
+                        ระดับความก้าวหน้าข้อสอบ: <span id="exam-progress" class="font-bold">ข้อที่ 1/5</span>
+                    </div>
+                </div>
+
+                <!-- กล่องประมวลผลข้อสอบ -->
+                <div class="lg:col-span-7 bg-slate-50 dark:bg-slate-950/80 p-6 sm:p-8 rounded-2xl border border-slate-200/60 dark:border-slate-800">
+                    
+                    <!-- ส่วนแบบทดสอบ -->
+                    <div id="exam-container">
+                        <h3 class="text-base sm:text-lg font-bold mb-5 text-slate-800 dark:text-white transition-font" id="exam-question-text">
+                            <!-- จะใส่คำถามผ่าน JavaScript -->
+                        </h3>
+                        <div class="space-y-3" id="exam-options-box">
+                            <!-- จะใส่ตัวเลือกข้อสอบผ่าน JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- ส่วนหน้าต่างประกาศคะแนนความสามารถ -->
+                    <div id="exam-result-box" class="hidden text-center py-6">
+                        <div class="w-16 h-16 bg-amber-100 dark:bg-amber-950/40 text-amber-500 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 animate-bounce">
+                            <i class="fa-solid fa-medal"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold mb-2 text-slate-800 dark:text-white">ประมวลผลการเรียนรู้สำเร็จ!</h4>
+                        <p id="exam-result-score-txt" class="text-slate-600 dark:text-slate-400 text-sm mb-6">คุณทำคะแนนได้ 0 จาก 5 ข้อ</p>
+                        
+                        <!-- ถ้าคะแนนเต็มหรือผ่านเกณฑ์ ถึงจะโชว์สิทธิ์ออกใบประกาศ -->
+                        <div id="eligible-certificate" class="hidden space-y-4 max-w-sm mx-auto mb-6 bg-emerald-50 dark:bg-emerald-950/20 p-4 rounded-xl border border-emerald-100 dark:border-emerald-900/30">
+                            <p class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">🎉 ยินดีด้วยอย่างยิ่ง! คุณผ่านเกณฑ์การได้รับเกียรติบัตรเกียรติยศดิจิทัล</p>
+                            <button onclick="triggerGenerateCertificate()" class="w-full px-5 py-3 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-white rounded-xl font-bold text-xs transition-all shadow-md">
+                                <i class="fa-solid fa-stamp mr-1.5 animate-spin"></i> สลักลายเซ็นและสร้างใบประกาศนีบัตร
+                            </button>
+                        </div>
+
+                        <button onclick="restartExam()" class="px-5 py-2.5 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg font-bold text-xs transition-all">
+                            <i class="fa-solid fa-rotate-left mr-1.5"></i> ทดสอบใหม่อีกครั้ง
+                        </button>
+                    </div>
+
+                    <!-- บอร์ดพรีวิวใบประกาศนีบัตรดิจิทัลที่ประกอบด้วยชื่อผู้ใช้ -->
+                    <div id="certificate-viewport" class="hidden mt-6 border-4 border-amber-300 rounded-2xl bg-gradient-to-tr from-amber-50/50 via-white to-amber-100/40 p-6 sm:p-10 shadow-2xl relative text-slate-800 overflow-hidden text-center">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-amber-400/10 rounded-full filter blur-xl"></div>
+                        <div class="absolute bottom-0 left-0 w-20 h-20 bg-amber-400/10 rounded-full filter blur-xl"></div>
+                        
+                        <!-- ตราประทับและลายนูนสีทอง -->
+                        <div class="border-2 border-amber-400/50 p-4 sm:p-6 rounded-xl">
+                            <div class="w-12 h-12 bg-amber-400 text-white rounded-full flex items-center justify-center mx-auto mb-3 text-lg font-extrabold shadow-md">
+                                <i class="fa-solid fa-award"></i>
+                            </div>
+                            <h5 class="text-[10px] font-mono tracking-widest font-bold text-amber-600 uppercase">Certificate of Excellence</h5>
+                            <h4 class="text-base sm:text-lg font-black text-slate-800 mt-1">ใบรับรองความสามารถพิเศษทางคอมพิวเตอร์</h4>
+                            
+                            <p class="text-[10px] text-slate-400 mt-4 font-semibold uppercase">มอบให้แก่ผู้ทดสอบผ่านเกณฑ์สูงสุด</p>
+                            <div id="cert-holder-name" class="text-xl sm:text-2xl font-bold text-purple-700 my-3 font-sans border-b border-dashed border-purple-300 inline-block px-6 pb-1">
+                                คุณผู้ใฝ่เรียนรู้
+                            </div>
+                            
+                            <p class="text-xs text-slate-500 max-w-md mx-auto leading-relaxed">
+                                ที่ได้พิสูจน์ฝีมือผ่านด่านทดสอบบทเรียนจำลองคอมพิวเตอร์, ด่านตรวจจับฟิชชิ่งปลอดภัยไซเบอร์ และการประกอบฮาร์ดแวร์จำลองอย่างเป็นเลิศ ขอให้รักษาความวิริยะอุตสาหะนี้สืบไป
+                            </p>
+
+                            <div class="mt-8 flex justify-around items-end">
+                                <div class="text-center">
+                                    <div class="text-xs font-bold text-slate-600 font-serif">Chanittra saetan</div>
+                                    <div class="h-px bg-slate-300 w-24 mx-auto my-1"></div>
+                                    <div class="text-[9px] text-slate-400">ผู้จัดทำและควบคุมงานวิจัยบทเรียน</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-[10px] font-bold text-amber-500" id="cert-date">7 มิถุนายน 2026</div>
+                                    <div class="h-px bg-slate-300 w-24 mx-auto my-1"></div>
+                                    <div class="text-[9px] text-slate-400">วันที่ได้รับการทดสอบสำเร็จ</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ส่วนที่ 5: ประวัติและผลงานของผู้พัฒนา (Developer Spotlight Card) -->
+        <section id="author" class="relative">
+            <div class="text-center mb-12">
+                <span class="px-3 py-1 text-[11px] font-bold bg-rose-100 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 rounded-full mb-2 inline-block uppercase tracking-wider font-mono">Researcher Profile</span>
+                <h2 class="text-3xl font-extrabold text-slate-800 dark:text-white transition-font">👩‍💻 ผู้จัดทำและสร้างสรรค์ระบบ</h2>
+                <p class="text-slate-500 dark:text-slate-400 mt-2 max-w-md mx-auto text-sm sm:text-base transition-font">แอดมินใจดีผู้ออกแบบเนื้อหา พัฒนาโค้ดเว็บบอร์ด และดูแลระบบเทคโนโลยีความรู้</p>
+            </div>
+
+            <!-- การ์ดประวัติเรืองแสงสายรุ้ง (Vibrant Spotlight Card) -->
+            <div class="max-w-4xl mx-auto relative px-1">
+                <!-- แสงสีรุ้งเรืองรอง -->
+                <div class="absolute -inset-1.5 rounded-3xl bg-gradient-to-r from-pink-500 via-purple-600 to-cyan-500 opacity-60 blur-lg animate-pulse"></div>
+                
+                <div class="relative bg-white dark:bg-gray-950 rounded-3xl p-6 sm:p-10 shadow-2xl flex flex-col md:flex-row items-center gap-8 md:gap-12 border border-slate-100 dark:border-slate-800">
+                    
+                    <!-- ส่วนแสดงรูปถ่ายทางการของผู้จัดทำ -->
+                    <div class="relative flex-shrink-0">
+                        <div class="absolute -inset-1 rounded-2xl bg-gradient-to-tr from-pink-500 via-purple-500 to-cyan-400 opacity-80 blur-xs"></div>
+                        <div class="relative w-44 sm:w-56 h-56 sm:h-72 rounded-2xl overflow-hidden border-4 border-white dark:border-gray-950 shadow-2xl bg-slate-100">
+                            <!-- อ้างอิงรูปภาพ IMG_9361.jpeg จากที่ผู้ใช้แนบ พร้อม Fallback ฉุกเฉินเป็นดีไซเนอร์การศึกษาการ์ตูน -->
+                            <img src="IMG_9361.jpeg" alt="Chanittra saetan" class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='https://placehold.co/400x500/818cf8/ffffff?text=Chanittra+saetan';">
+                        </div>
+                        
+                        <!-- ไอคอนสถานะ Online และการสู้ชีวิตการทำวิจัย -->
+                        <div class="absolute -bottom-2 -right-2 bg-emerald-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs animate-bounce shadow-md">
+                            <i class="fa-solid fa-circle"></i>
+                        </div>
+                    </div>
+
+                    <!-- รายละเอียดประวัติอย่างเป็นทางการ -->
+                    <div class="flex-grow text-center md:text-left space-y-4">
+                        <span class="px-3 py-1.5 text-[10px] font-bold bg-pink-100 dark:bg-pink-950/50 text-pink-600 dark:text-pink-400 rounded-full inline-block font-mono tracking-wider">Educational Technologist</span>
+                        <h3 class="text-3xl font-black tracking-wide text-slate-800 dark:text-white font-sans transition-font">Chanittra saetan</h3>
+                        <p class="text-purple-600 dark:text-purple-400 font-bold text-sm -mt-2">ผู้สร้างสรรค์สื่อดิจิทัลและเทคโนโลยีสารสนเทศเพื่อทุกคน</p>
+                        
+                        <div class="h-px bg-slate-200 dark:bg-slate-800"></div>
+                        
+                        <p class="text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed transition-font">
+                            "ยินดีต้อนรับผู้เรียนทุกระดับเข้าสู่โลกเสมือนจริงของไอทีค่ะ แหล่งเรียนรู้นี้สร้างสรรค์ขึ้นด้วยความใส่ใจต่อหลักสิทธิและความเท่าเทียมของมนุษย์ (Accessibility) จึงพร้อมรองรับการขยายขนาดฟอนต์อ่านง่าย และโหมดถนอมดวงตาสำหรับเรียนตอนกลางคืนอย่างเต็มรูปแบบ"
+                        </p>
+
+                        <!-- ช่องทางติดต่อสื่อสังคมออนไลน์ -->
+                        <div class="flex justify-center md:justify-start gap-3 pt-2">
+                            <a href="mailto:chanittra@comclass.com" class="w-10 h-10 rounded-xl bg-slate-100 hover:bg-pink-500 hover:text-white dark:bg-slate-900 dark:hover:bg-pink-600 flex items-center justify-center text-slate-600 dark:text-slate-300 transition-all shadow-sm" title="ส่งอีเมลติดต่อครูผู้จัดทำ">
+                                <i class="fa-regular fa-envelope text-sm"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-xl bg-slate-100 hover:bg-purple-500 hover:text-white dark:bg-slate-900 dark:hover:bg-purple-600 flex items-center justify-center text-slate-600 dark:text-slate-300 transition-all shadow-sm" title="ติดตามทางโซเชียล">
+                                <i class="fa-brands fa-facebook-f text-sm"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-xl bg-slate-100 hover:bg-cyan-500 hover:text-white dark:bg-slate-900 dark:hover:bg-cyan-600 flex items-center justify-center text-slate-600 dark:text-slate-300 transition-all shadow-sm" title="GitHub">
+                                <i class="fa-brands fa-github text-sm"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ส่วนที่ 6: สมุดอวยพรเขียนข้อความแนะนำตัว (Live Student Guestbook) -->
+        <section id="guestbook" class="max-w-4xl mx-auto bg-white dark:bg-gray-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-10 shadow-xl">
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-cyan-100 dark:bg-cyan-950 flex items-center justify-center text-cyan-500 text-lg">
+                    <i class="fa-solid fa-comments"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-slate-800 dark:text-white">📝 สมุดบันทึกเยี่ยมชมห้องเรียน</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">ฝากความเห็น ข้อความขอบคุณ หรือทักทายคุณครู Chanittra saetan กันได้เลย!</p>
+                </div>
+            </div>
+
+            <!-- ฟอร์มกรอกข้อความ -->
+            <form onsubmit="saveGuestbookMessage(event)" class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">ชื่อผู้ฝากข้อความ:</label>
+                        <input type="text" id="gb-author" required placeholder="เช่น น้องพลอย แสนขยัน" class="w-full text-xs px-3.5 py-3 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 dark:text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">สถานะผู้เขียน:</label>
+                        <select id="gb-status" class="w-full text-xs px-3.5 py-3 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 text-slate-700 dark:text-slate-200">
+                            <option value="💻 นักเรียน/นักศึกษา">💻 นักเรียน/นักศึกษา</option>
+                            <option value="🎓 ครูอาจารย์/บุคลากร">🎓 ครูอาจารย์/บุคลากร</option>
+                            <option value="🌟 บุคคลทั่วไปที่รักไอที">🌟 บุคคลทั่วไปที่รักไอที</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">ความในใจหรือคำอวยพร:</label>
+                    <textarea id="gb-message" required rows="3" placeholder="เขียนความประทับใจของคุณกับบทเรียนคอมพิวเตอร์นี้ได้เต็มที่..." class="w-full text-xs px-3.5 py-3 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 dark:text-white"></textarea>
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold rounded-xl text-xs transition-all shadow-md">
+                        <i class="fa-regular fa-paper-plane mr-1.5 animate-pulse"></i> ส่งข้อความเข้าสู่บอร์ดคลาสรูม
+                    </button>
+                </div>
+            </form>
+
+            <div class="h-px bg-slate-200 dark:bg-slate-800 my-6"></div>
+
+            <!-- รายชื่อคอมเมนต์ของนักศึกษาที่บันทึกไว้ -->
+            <div id="guestbook-list-container" class="space-y-3 max-h-64 overflow-y-auto pr-1">
+                <!-- คอมเมนต์จะถูกจัดทำโดย JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ส่วนท้ายสุดของหน้าเว็บบรรยากาศโมเดิร์น -->
+    <footer class="bg-white dark:bg-gray-950 border-t border-purple-100 dark:border-slate-900 transition-all duration-300 py-10 mt-20 text-center text-xs text-slate-500 dark:text-slate-400">
+        <div class="max-w-7xl mx-auto px-4 space-y-4">
+            <div class="flex justify-center items-center space-x-2">
+                <div class="w-2.5 h-2.5 rounded-full bg-pink-500 animate-ping"></div>
+                <span>คลาสเรียนคอมพิวเตอร์แห่งอนาคตแบบพกพา</span>
+            </div>
+            <p class="font-sans">© 2026 CompuClassroom. สร้างสรรค์และออกแบบนวัตกรรมการเรียนไอทีระดับพรีเมียมโดย <span class="text-pink-500 dark:text-pink-400 font-semibold font-sans">Chanittra saetan</span></p>
+            <div class="text-[10px] text-slate-400 dark:text-slate-500">
+                ขับเคลื่อนและจำลองโครงสร้างด้วย HTML5 + CSS Tailwind + JS Client-Side Store
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- === JAVASCRIPT LOGIC CONTROLLERS === -->
+    <script>
+        // === 1. ระบบจำลองเอฟเฟกต์เสียงด้วย Tone.js (Interactive Synthesized Sound Effects) ===
+        let synth;
+        function playBeep(type) {
+            try {
+                if (!synth) {
+                    // สร้าง Polyphonic Synth สำหรับความสวยงาม
+                    synth = new Tone.Synth({
+                        oscillator: { type: "sine" },
+                        envelope: { attack: 0.04, decay: 0.08, sustain: 0.2, release: 0.8 }
+                    }).toDestination();
+                }
+                
+                if (type === 'click') {
+                    synth.triggerAttackRelease("E5", "16n");
+                } else if (type === 'success') {
+                    synth.triggerAttackRelease("G5", "16n");
+                    setTimeout(() => synth.triggerAttackRelease("C6", "16n"), 100);
+                } else if (type === 'error') {
+                    synth.triggerAttackRelease("B3", "8n");
+                } else if (type === 'fanfare') {
+                    synth.triggerAttackRelease("C5", "16n");
+                    setTimeout(() => synth.triggerAttackRelease("E5", "16n"), 80);
+                    setTimeout(() => synth.triggerAttackRelease("G5", "16n"), 160);
+                    setTimeout(() => synth.triggerAttackRelease("C6", "8n"), 240);
+                }
+            } catch (err) {
+                console.log("Audio Context not ready yet. Interacting with the webpage releases restriction.");
+            }
+        }
+
+        // === 2. แผงอำนวยความสะดวก: การปรับเพิ่ม/ลดขนาดอักษร (Accessibility Text Scaling) ===
+        let fontScaleMultiplier = 1.0;
+        function changeFontSize(action) {
+            playBeep('click');
+            const elements = document.querySelectorAll('.transition-font');
+            
+            if (action === 'increase') {
+                if (fontScaleMultiplier < 1.35) fontScaleMultiplier += 0.05;
+            } else if (action === 'decrease') {
+                if (fontScaleMultiplier > 0.85) fontScaleMultiplier -= 0.05;
+            } else {
+                fontScaleMultiplier = 1.0;
+            }
+            
+            // ปรับขนาดของทั้งเอกสารเป็นสัดส่วน
+            document.body.style.fontSize = `${fontScaleMultiplier * 100}%`;
+        }
+
+        // === 3. ฟังก์ชันสลับโหมดสว่าง-มืด (Day & Night Mode Themes) ===
+        // ค่าดีฟอลต์จากหน่วยความจำภายในเครื่อง
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            syncThemeButtonUi(true);
+        } else {
+            document.documentElement.classList.remove('dark');
+            syncThemeButtonUi(false);
+        }
+
+        function toggleDayNightMode() {
+            playBeep('click');
+            const isDark = document.documentElement.classList.toggle('dark');
+            if (isDark) {
+                localStorage.theme = 'dark';
+            } else {
+                localStorage.theme = 'light';
+            }
+            syncThemeButtonUi(isDark);
+        }
+
+        function syncThemeButtonUi(isDark) {
+            const btn = document.getElementById('theme-toggler');
+            const icon = document.getElementById('theme-btn-icon');
+            if (isDark) {
+                btn.className = "w-10 h-10 rounded-xl flex items-center justify-center text-white focus:outline-none shadow-md bg-gradient-to-r from-indigo-500 to-purple-600 transition-all duration-300 transform hover:scale-105";
+                icon.innerHTML = '<i class="fa-solid fa-moon text-yellow-200"></i>';
+            } else {
+                btn.className = "w-10 h-10 rounded-xl flex items-center justify-center text-white focus:outline-none shadow-md bg-gradient-to-r from-yellow-400 to-amber-500 transition-all duration-300 transform hover:scale-105";
+                icon.innerHTML = '<i class="fa-solid fa-sun text-yellow-50"></i>';
+            }
+        }
+
+
+        // === 4. ระบบจำลองประกอบคอมพิวเตอร์ (PC Assembly Simulator Logic) ===
+        const simulatorPartsState = {
+            cpu: false,
+            ram: false,
+            gpu: false,
+            storage: false
+        };
+
+        function installHardware(part) {
+            playBeep('click');
+            const badge = document.getElementById(`badge-${part}`);
+            const socket = document.getElementById(`socket-${part}`);
+            const card = document.getElementById(`part-${part}`);
+            
+            if (!simulatorPartsState[part]) {
+                // ถ้ายังไม่ได้ต่อชิ้นส่วน -> นำไปสวมบนเมนบอร์ด
+                simulatorPartsState[part] = true;
+                badge.innerText = "ติดตั้งแล้ว";
+                badge.className = "px-2.5 py-1 rounded-lg text-[10px] font-bold bg-emerald-500 text-white animate-pulse";
+                card.classList.add('bg-pink-50', 'dark:bg-pink-950/20', 'border-pink-400');
+                
+                // ตกแต่งความงามบนกระดานบอร์ดเสมือน
+                if (part === 'cpu') {
+                    socket.className = "h-28 border-2 border-solid border-emerald-500 rounded-xl flex flex-col items-center justify-center text-emerald-500 bg-emerald-100/30 dark:bg-emerald-950/20 scale-105 shadow-lg transition-all";
+                    socket.innerHTML = `<i class="fa-solid fa-microchip text-3xl mb-1 animate-pulse"></i><span class="text-[9px] font-black uppercase">CPU Core-i9 Active</span>`;
+                } else if (part === 'ram') {
+                    socket.className = "h-28 border-2 border-solid border-emerald-500 rounded-xl flex flex-col items-center justify-center text-emerald-500 bg-emerald-100/30 dark:bg-emerald-950/20 scale-105 shadow-lg transition-all";
+                    socket.innerHTML = `<i class="fa-solid fa-memory text-3xl mb-1 animate-pulse"></i><span class="text-[9px] font-black uppercase">RAM 32GB Active</span>`;
+                } else if (part === 'gpu') {
+                    socket.className = "h-28 border-2 border-solid border-emerald-500 rounded-xl flex flex-col items-center justify-center text-emerald-500 bg-emerald-100/30 dark:bg-emerald-950/20 scale-105 shadow-lg transition-all";
+                    socket.innerHTML = `<i class="fa-solid fa-floppy-disk text-3xl mb-1 animate-pulse"></i><span class="text-[9px] font-black uppercase">GPU RTX Active</span>`;
+                } else if (part === 'storage') {
+                    socket.className = "h-28 border-2 border-solid border-emerald-500 rounded-xl flex flex-col items-center justify-center text-emerald-500 bg-emerald-100/30 dark:bg-emerald-950/20 scale-105 shadow-lg transition-all";
+                    socket.innerHTML = `<i class="fa-solid fa-database text-3xl mb-1 animate-pulse"></i><span class="text-[9px] font-black uppercase">NVMe 2TB Active</span>`;
+                }
+            } else {
+                // ถ้าต่ออยู่แล้ว -> ถอดคืนเข้าคลัง
+                simulatorPartsState[part] = false;
+                badge.innerText = "คลังพัสดุ";
+                badge.className = "px-2.5 py-1 rounded-lg text-[10px] font-bold bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-400";
+                card.classList.remove('bg-pink-50', 'dark:bg-pink-950/20', 'border-pink-400');
+                
+                // รีเซ็ตการ์ดเมนบอร์ด
+                if (part === 'cpu') {
+                    socket.className = "h-28 border-2 border-dashed border-slate-400 dark:border-slate-800 rounded-xl flex flex-col items-center justify-center text-slate-400 bg-slate-300/40 dark:bg-slate-900/40 transition-all";
+                    socket.innerHTML = `<i class="fa-solid fa-microchip text-2xl mb-1"></i><span class="text-[10px] font-bold uppercase">Socket CPU</span>`;
+                } else if (part === 'ram') {
+                    socket.className = "h-28 border-2 border-dashed border-slate-400 dark:border-slate-800 rounded-xl flex flex-col items-center justify-center text-slate-400 bg-slate-300/40 dark:bg-slate-900/40 transition-all";
+                    socket.innerHTML = `<i class="fa-solid fa-memory text-2xl mb-1"></i><span class="text-[10px] font-bold uppercase">RAM Slot</span>`;
+                } else if (part === 'gpu') {
+                    socket.className = "h-28 border-2 border-dashed border-slate-400 dark:border-slate-800 rounded-xl flex flex-col items-center justify-center text-slate-400 bg-slate-300/40 dark:bg-slate-900/40 transition-all";
+                    socket.innerHTML = `<i class="fa-solid fa-floppy-disk text-2xl mb-1"></i><span class="text-[10px] font-bold uppercase">PCIe GPU Slot</span>`;
+                } else if (part === 'storage') {
+                    socket.className = "h-28 border-2 border-dashed border-slate-400 dark:border-slate-800 rounded-xl flex flex-col items-center justify-center text-slate-400 bg-slate-300/40 dark:bg-slate-900/40 transition-all";
+                    socket.innerHTML = `<i class="fa-solid fa-database text-2xl mb-1"></i><span class="text-[10px] font-bold uppercase">M.2 NVMe Slot</span>`;
+                }
+            }
+            calculateSimulatorPerformance();
+        }
+
+        function calculateSimulatorPerformance() {
+            let activeCount = 0;
+            if (simulatorPartsState.cpu) activeCount++;
+            if (simulatorPartsState.ram) activeCount++;
+            if (simulatorPartsState.gpu) activeCount++;
+            if (simulatorPartsState.storage) activeCount++;
+
+            const percentage = activeCount * 25;
+            const bar = document.getElementById('performance-bar');
+            const percentLabel = document.getElementById('performance-percentage');
+            const desc = document.getElementById('performance-desc');
+
+            bar.style.width = `${percentage}%`;
+            percentLabel.innerText = `${percentage}%`;
+
+            if (percentage === 0) {
+                desc.innerHTML = "* คลิกติดตั้งอุปกรณ์ในกล่องเก็บซ้ายมือ เพื่อเปิดเครื่องทดสอบสัญญาณบอร์ด";
+                desc.className = "text-xs text-slate-500 dark:text-slate-400 italic";
+            } else if (percentage === 25) {
+                desc.innerHTML = "⚡ ไฟเลี้ยงเข้าบอร์ดแล้ว: มีชิ้นส่วนทำงานหนึ่งชิ้น แต่ระบบยังขาดองค์ประกอบเพื่อบูตเครื่อง";
+                desc.className = "text-xs text-yellow-600 dark:text-yellow-400 font-semibold";
+            } else if (percentage === 50) {
+                desc.innerHTML = "⚡ ประมวลผลได้จำกัด: อุปกรณ์เริ่มสื่อสารกันได้ แต่ระบบปฏิบัติการหลักไม่สามารถรันข้อมูล";
+                desc.className = "text-xs text-yellow-600 dark:text-yellow-400 font-semibold";
+            } else if (percentage === 75) {
+                desc.innerHTML = "⚡ ขาดหน่วยงานภาพกราฟิก: ระบบใกล้สมบูรณ์แล้ว ขาดเพียงชิปประมวลภาพสำหรับการเรนเดอร์สวยงาม";
+                desc.className = "text-xs text-cyan-600 dark:text-cyan-400 font-semibold";
+            } else if (percentage === 100) {
+                playBeep('success');
+                desc.innerHTML = "🟢 คอมพิวเตอร์ประกอบเสร็จสมบูรณ์ 100%! สัญญาณพร้อม บูตเข้าระบบปฏิบัติการ Windows สำเร็จและแรงระดับแนวหน้า!";
+                desc.className = "text-xs text-emerald-500 font-bold animate-bounce";
+            }
+        }
+
+        function resetSimulator() {
+            playBeep('click');
+            simulatorPartsState.cpu = false;
+            simulatorPartsState.ram = false;
+            simulatorPartsState.gpu = false;
+            simulatorPartsState.storage = false;
+
+            const parts = ['cpu', 'ram', 'gpu', 'storage'];
+            parts.forEach(part => {
+                const badge = document.getElementById(`badge-${part}`);
+                const socket = document.getElementById(`socket-${part}`);
+                const card = document.getElementById(`part-${part}`);
+                
+                badge.innerText = "คลังพัสดุ";
+                badge.className = "px-2.5 py-1 rounded-lg text-[10px] font-bold bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-400";
+                card.className = "p-4 bg-slate-50 dark:bg-slate-900 border-2 border-dashed border-slate-200 dark:border-slate-800 hover:border-pink-500 dark:hover:border-pink-500 rounded-2xl cursor-pointer transition-all flex items-center justify-between group";
+                
+                // คืนสภาพซ็อกเก็ต
+                if (part === 'cpu') {
+                    socket.className = "h-28 border-2 border-dashed border-slate-400 dark:border-slate-800 rounded-xl flex flex-col items-center justify-center text-slate-400 bg-slate-300/40 dark:bg-slate-900/40 transition-all";
+                    socket.innerHTML = `<i class="fa-solid fa-microchip text-2xl mb-1"></i><span class="text-[10px] font-bold uppercase">Socket CPU</span>`;
+                } else if (part === 'ram') {
+                    socket.className = "h-28 border-2 border-dashed border-slate-400 dark:border-slate-800 rounded-xl flex flex-col items-center justify-center text-slate-400 bg-slate-300/40 dark:bg-slate-900/40 transition-all";
+                    socket.innerHTML = `<i class="fa-solid fa-memory text-2xl mb-1"></i><span class="text-[10px] font-bold uppercase">RAM Slot</span>`;
+                } else if (part === 'gpu') {
+                    socket.className = "h-28 border-2 border-dashed border-slate-400 dark:border-slate-800 rounded-xl flex flex-col items-center justify-center text-slate-400 bg-slate-300/40 dark:bg-slate-900/40 transition-all";
+                    socket.innerHTML = `<i class="fa-solid fa-floppy-disk text-2xl mb-1"></i><span class="text-[10px] font-bold uppercase">PCIe GPU Slot</span>`;
+                } else if (part === 'storage') {
+                    socket.className = "h-28 border-2 border-dashed border-slate-400 dark:border-slate-800 rounded-xl flex flex-col items-center justify-center text-slate-400 bg-slate-300/40 dark:bg-slate-900/40 transition-all";
+                    socket.innerHTML = `<i class="fa-solid fa-database text-2xl mb-1"></i><span class="text-[10px] font-bold uppercase">M.2 NVMe Slot</span>`;
+                }
+            });
+            calculateSimulatorPerformance();
+        }
+
+        // === 5. ห้องทดลองเขียนเว็บบอร์ด CSS Sandbox ===
+        function runSandboxCode() {
+            playBeep('click');
+            const selector = document.getElementById('code-selector');
+            const preview = document.getElementById('sandbox-preview');
+            preview.style.background = selector.value;
+        }
+
+        // === 6. ระบบวิเคราะห์ Phishing Mail (Cybersecurity Lab) ===
+        const phishingEmailCases = [
+            {
+                sender: "Netflix-Support <admin-billing-update-9921@secure-bank-login.com>",
+                subject: "!! แจ้งเตือนฉุกเฉิน บัญชีคุณกำลังจะถูกระงับถาวร กรุณากรอกรหัสผ่านเพื่อยืนยันตนด่วนที่สุด !!",
+                content: "เรียน สมาชิกที่รัก,<br><br>เราตรวจพบความพยายามเข้าสู่ระบบที่ไม่ปกติในแถบต่างจังหวัดของคุณ หากไม่รีบดำเนินการคลิกยืนยันลิงก์แนบด้านล่างเพื่อชำระค่าบริการรอบใหม่ ระบบจะลบบัญชีและทำลายประวัติการรับชมภายใน 24 ชั่วโมง!<br><br><span class='text-yellow-400 font-bold'>ลิงก์อันตราย: http://verify-netflix-payment.scam-website.xyz</span>",
+                isPhishing: true,
+                explanation: "🔴 ถูกต้องที่สุด! นี่คืออีเมล Phishing เพราะผู้ส่งใช้โดเมนอีเมลแปลกปลอม (@secure-bank-login.com แทนที่จะเป็น @netflix.com) และมีการกระตุ้นให้กดเร่งด่วนด้วยเรื่องการระงับบัญชี"
+            },
+            {
+                sender: "Github Security <noreply@github.com>",
+                subject: "[GitHub] Security Alert: New personal access token created",
+                content: "สวัสดีผู้พัฒนา,<br><br>เราต้องการเรียนแจ้งว่ามีโทเค็นความปลอดภัยชุดใหม่ (Personal Access Token) ถูกสร้างขึ้นในบัญชีไอทีของคุณเมื่อวานนี้ หากนั่นเป็นสิ่งที่คุณตั้งใจทำ คุณไม่ต้องดำเนินการใดๆ แต่หากคุณไม่ได้ทำ กรุณาเปลี่ยนรหัสผ่านเพื่อความปลอดภัย",
+                isPhishing: false,
+                explanation: "🟢 ยอดเยี่ยม! นี่คือเมลจริงที่ปลอดภัย เพราะระบุที่อยู่อีเมลอย่างเป็นทางการ (@github.com) และไม่ได้มีลิงก์บังคับให้ใส่ข้อมูลส่วนตัวอย่างน่าสงสัย"
+            }
+        ];
+
+        let activePhishIndex = 0;
+        let shieldHealth = 100;
+
+        function judgePhishing(userSaysPhishing) {
+            const currentMail = phishingEmailCases[activePhishIndex];
+            const feedbackBox = document.getElementById('phish-feedback-box');
+            feedbackBox.classList.remove('hidden');
+
+            if (userSaysPhishing === currentMail.isPhishing) {
+                // ตอบถูก
+                playBeep('success');
+                feedbackBox.className = "p-4 rounded-xl text-xs leading-relaxed bg-emerald-950/40 text-emerald-400 border border-emerald-900/50";
+                feedbackBox.innerHTML = `<strong>🎉 วิเคราะห์ถูกต้อง!</strong> <br> ${currentMail.explanation}`;
+            } else {
+                // ตอบผิด ลดเลือดโล่ห์
+                playBeep('error');
+                shieldHealth = Math.max(0, shieldHealth - 50);
+                document.getElementById('shield-hp').innerText = `${shieldHealth}%`;
+                document.getElementById('shield-bar').style.width = `${shieldHealth}%`;
+                
+                feedbackBox.className = "p-4 rounded-xl text-xs leading-relaxed bg-red-950/40 text-red-400 border border-red-900/50";
+                feedbackBox.innerHTML = `<strong>❌ พลาดท่าแฮ็กเกอร์!</strong> <br> ระบบโดนไวรัสและลดระดับความปลอดภัยลง เนื่องจากจำแนกความเสี่ยงผิดพลาด`;
+            }
+
+            // เปลี่ยนเมลหลังผ่านไป 4 วินาที
+            setTimeout(() => {
+                activePhishIndex = (activePhishIndex + 1) % phishingEmailCases.length;
+                loadPhishingEmail();
+            }, 5000);
+        }
+
+        function loadPhishingEmail() {
+            const currentMail = phishingEmailCases[activePhishIndex];
+            document.getElementById('phish-sender').innerText = currentMail.sender;
+            document.getElementById('phish-subject').innerText = currentMail.subject;
+            document.getElementById('phish-content').innerHTML = currentMail.content;
+            document.getElementById('phish-feedback-box').classList.add('hidden');
+        }
+
+
+        // === 7. ระบบแบบทดสอบคอมพิวเตอร์และเทคโนโลยี (Comprehensive 5-Question Quiz) ===
+        const examQuestions = [
+            {
+                q: "1. หากคุณต้องการขยายขีดความสามารถในการสลับเล่นเกมพร้อมเปิดโปรแกรมสตรีมมิ่งหลายแท็บอย่างลื่นไหล ควรจัดหาอุปกรณ์ฮาร์ดแวร์ชิ้นใดเพิ่ม?",
+                options: ["ก. สเปซการ์ดแลน (LAN Card)", "ข. เพิ่มปริมาณพื้นที่หน่วยความจำแรม (RAM)", "ค. ซื้อไดรฟ์อ่านแผ่นซีดีเพิ่ม", "ง. พัดลมระบบระบายความร้อนตัวใหญ่ขึ้น"],
+                correct: 1
+            },
+            {
+                q: "2. บริการจัดเก็บข้อมูลผ่านเครือข่ายอินเทอร์เน็ตระยะไกลโดยไม่ต้องดูแลเซิร์ฟเวอร์ด้วยตนเอง เรียกว่ารูปแบบเทคโนโลยีอะไร?",
+                options: ["ก. Cloud Computing", "ข. Quantum Processing", "ค. Local Hard Disk", "ง. Parallel Cable"],
+                correct: 0
+            },
+            {
+                q: "3. ข้อใดถือเป็น 'สัญญาณเตือนภัยอันตราย' ที่อาจบอกว่าเว็บไซต์ที่คุณกำลังเข้าอยู่เป็นเว็บประสงค์ร้าย (Malicious Website)?",
+                options: ["ก. หน้าเว็บโหลดภาพกราฟิกสวยหรูดูช้าลง", "ข. หน้าเว็บขึ้นเตือนให้ดาวน์โหลดไฟล์ .exe เพื่อแก้ปัญหาไวรัส และเร่งรีบเรื่องรางวัลเงินล้าน", "ค. หน้าเว็บมีการเข้ารหัสความปลอดภัย HTTPS สีเขียวเรียบร้อย", "ง. มีการปรับโหมดกลางคืนตามแสงแดดภายนอก"],
+                correct: 1
+            },
+            {
+                q: "4. ภาษา HTML ที่ใช้ประกอบสร้างเว็บไซต์ มีความหมายย่อมาจากคำศัพท์เทคโนโลยีใด?",
+                options: ["ก. High Tech Model Language", "ข. Hyper Text Markup Language", "ค. Hybrid Tool Modular Loops", "ง. Hardcore Turbo Machine Logic"],
+                correct: 1
+            },
+            {
+                q: "5. เพื่อป้องกันไม่ให้บัญชีผู้ใช้ส่วนบุคคลถูกมิจฉาชีพเจาะรหัสผ่านด้วยระบบคอมพิวเตอร์ความเร็วสูง ข้อใดปฏิบัติดีที่สุด?",
+                options: ["ก. ตั้งรหัสผ่านเดียวกันกับเพื่อนเพื่อความง่าย", "ข. ใช้รหัสผ่านที่ตั้งจากวันเดือนปีเกิดแบบตรงไปตรงมา", "ค. ผสมผสานตัวพิมพ์ใหญ่ พิมพ์เล็ก ตัวเลข เครื่องหมายสัญลักษณ์ และเปิดการยืนยันสองขั้นตอน (2FA)", "ง. โพสต์รหัสผ่านลงสติ๊กเกอร์กระดาษโน้ตแปะไว้หน้าจอ"],
+                correct: 2
+            }
+        ];
+
+        let currentExamIndex = 0;
+        let examScore = 0;
+        let studentName = "คุณผู้ฝากรักเรียน";
+
+        function renderExamQuestion() {
+            const questionText = document.getElementById('exam-question-text');
+            const optionsBox = document.getElementById('exam-options-box');
+            const progress = document.getElementById('exam-progress');
+
+            const current = examQuestions[currentExamIndex];
+            questionText.innerText = current.q;
+            progress.innerText = `ข้อที่ ${currentExamIndex + 1}/${examQuestions.length}`;
+
+            optionsBox.innerHTML = '';
+            current.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-purple-400 dark:hover:border-purple-800 hover:bg-purple-50/50 dark:hover:bg-purple-950/10 text-xs sm:text-sm font-medium transition-all flex items-center justify-between";
+                btn.innerHTML = `<span>${opt}</span><i class="fa-solid fa-chevron-right text-purple-400"></i>`;
+                btn.onclick = () => submitExamAnswer(idx);
+                optionsBox.appendChild(btn);
+            });
+        }
+
+        function submitExamAnswer(idx) {
+            const current = examQuestions[currentExamIndex];
+            if (idx === current.correct) {
+                examScore++;
+                playBeep('success');
+            } else {
+                playBeep('error');
+            }
+
+            if (currentExamIndex + 1 < examQuestions.length) {
+                currentExamIndex++;
+                renderExamQuestion();
+            } else {
+                showExamResults();
+            }
+        }
+
+        function updateStudentNameInRealtime() {
+            const input = document.getElementById('student-name-input');
+            studentName = input.value.trim() || "คุณผู้ฝากรักเรียน";
+        }
+
+        function showExamResults() {
+            document.getElementById('exam-container').classList.add('hidden');
+            document.getElementById('exam-result-box').classList.remove('hidden');
+            document.getElementById('exam-result-score-txt').innerText = `คุณสอบทำคะแนนได้ ${examScore} จากคะแนนรวมทั้งสิ้น ${examQuestions.length} ข้อ!`;
+
+            // บังคับให้ได้คะแนนอย่างน้อย 4/5 ถึงจะอนุญาตให้ออกใบประกาศ
+            const certEligibility = document.getElementById('eligible-certificate');
+            if (examScore >= 4) {
+                certEligibility.classList.remove('hidden');
+            } else {
+                certEligibility.classList.add('hidden');
+            }
+        }
+
+        function triggerGenerateCertificate() {
+            playBeep('fanfare');
+            // นำชื่อผู้เรียนไปจัดวางลงในเกียรติบัตร
+            document.getElementById('cert-holder-name').innerText = studentName;
+            
+            // ตั้งค่าเวลาปัจจุบัน
+            const certDate = document.getElementById('cert-date');
+            const now = new Date();
+            certDate.innerText = now.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' });
+
+            // โชว์แผงเกียรติบัตร
+            document.getElementById('certificate-viewport').classList.remove('hidden');
+            document.getElementById('certificate-viewport').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function restartExam() {
+            playBeep('click');
+            currentExamIndex = 0;
+            examScore = 0;
+            document.getElementById('exam-container').classList.remove('hidden');
+            document.getElementById('exam-result-box').classList.add('hidden');
+            document.getElementById('certificate-viewport').classList.add('hidden');
+            renderExamQuestion();
+        }
+
+
+        // === 8. ระบบสมุดลงชื่อเยี่ยมชม (Guestbook Store with LocalStorage) ===
+        const defaultGuestbookData = [
+            {
+                author: "น้องก้อง ม.2",
+                status: "💻 นักเรียน/นักศึกษา",
+                message: "ขอบคุณบทเรียนวิเศษชิ้นนี้มากครับผมต่อคอมจำลองในแล็บสี่ห้ารอบจนต่อจริงที่บ้านคล่องแล้วครับ!",
+                time: "7/6/2026, 09:12:00 AM"
+            },
+            {
+                author: "อาจารย์ สมชาย นครไทย",
+                status: "🎓 ครูอาจารย์/บุคลากร",
+                message: "เป็นสื่อการเรียนการสอนคอมพิวเตอร์ที่ยอดเยี่ยมมาก มีการจำลองให้สัมผัสเล่นจริง และช่วยถนอมดวงตาผู้สูงวัย ขอเป็นกำลังใจให้นักวิจัยทำชุดถัดไปนะครับ",
+                time: "7/6/2026, 09:15:22 AM"
+            }
+        ];
+
+        function getGuestbookData() {
+            const data = localStorage.getItem('com_class_guestbook');
+            if (data) {
+                return JSON.parse(data);
+            }
+            // ถ้ายังไม่มีคอมเมนต์ในเครื่อง ให้ดึงค่าจำลองเริ่มต้น
+            localStorage.setItem('com_class_guestbook', JSON.stringify(defaultGuestbookData));
+            return defaultGuestbookData;
+        }
+
+        function renderGuestbook() {
+            const container = document.getElementById('guestbook-list-container');
+            const list = getGuestbookData();
+            container.innerHTML = '';
+
+            // แสดงคอมเมนต์จากใหม่สุดไปเก่าสุด
+            [...list].reverse().forEach(item => {
+                const itemCard = document.createElement('div');
+                itemCard.className = "p-4 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-slate-800 text-xs space-y-2";
+                itemCard.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <span class="font-bold text-slate-800 dark:text-slate-100">${escapeHtml(item.author)}</span>
+                            <span class="px-2 py-0.5 rounded bg-purple-100 dark:bg-purple-950 text-purple-600 dark:text-purple-400 font-bold text-[9px]">${item.status}</span>
+                        </div>
+                        <span class="text-[9px] text-slate-400">${item.time}</span>
+                    </div>
+                    <p class="text-slate-600 dark:text-slate-400 leading-relaxed italic">"${escapeHtml(item.message)}"</p>
+                `;
+                container.appendChild(itemCard);
+            });
+        }
+
+        function saveGuestbookMessage(e) {
+            e.preventDefault();
+            playBeep('success');
+            
+            const authorInput = document.getElementById('gb-author');
+            const statusInput = document.getElementById('gb-status');
+            const messageInput = document.getElementById('gb-message');
+
+            const newMessage = {
+                author: authorInput.value.trim(),
+                status: statusInput.value,
+                message: messageInput.value.trim(),
+                time: new Date().toLocaleString()
+            };
+
+            const list = getGuestbookData();
+            list.push(newMessage);
+            localStorage.setItem('com_class_guestbook', JSON.stringify(list));
+
+            // รีเซ็ตค่าฟอร์ม
+            authorInput.value = '';
+            messageInput.value = '';
+
+            // เรนเดอร์ใหม่ทันที
+            renderGuestbook();
+        }
+
+        function escapeHtml(text) {
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+
+        // === 9. เริ่มต้นโหลดโมดูลเมื่อเปิดเว็บไซต์ครั้งแรก ===
+        window.onload = function () {
+            // โหลดแบบทดสอบคำถามแรก
+            renderExamQuestion();
+            // โหลดจำลองเมลคุกคามแรก
+            loadPhishingEmail();
+            // โหลดสมุดเยี่ยมชม
+            renderGuestbook();
+        }
+    </script>
+</body>
+</html>
